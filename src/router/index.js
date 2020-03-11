@@ -1,15 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import main from '@/components/main'
+import home from '@/page/home'
+import item from '@/page/item'
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'main',
-      component: main
-    }
-  ]
+  routes: [{
+    path: '/home',
+    name: 'home',
+    component: home,
+  }, {
+    path: '/item',
+    name: 'item',
+    component: item
+  }, {
+    path: '/',
+    redirect: '/home'
+
+  }]
 })
