@@ -11,7 +11,6 @@ import container from '../components/container'
 export default {
     name:'home',
     components:{
-        
         container
     },
 data() {

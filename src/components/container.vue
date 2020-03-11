@@ -64,7 +64,6 @@ export default {
     //下一题
     nextQuestion() {
       if (this.answerid == '') {
-        
         alert("您还没有选择答案哦");
       }
       console.log(this.answerid);
