@@ -2,7 +2,7 @@ import Vue from 'vue'
 import vuex from 'vuex'
 Vue.use(vuex);
 const state = {
-  level: '第一周', //活动周数
+	level: '第一周', //活动周数
 	itemNum: 1, // 第几题
 	allTime: 0,  //总共用时
 	timer: '', //定时器
@@ -165,14 +165,27 @@ const state = {
 	answerid: [], //答案id
 }
 export default new vuex.Store({
-  state,
-  getters:{
+	state,
+	getters: {
 
-  },
-  mutations:{
+	},
+	mutations: {
+		addItemNum() {
+			state.itemNum += 1
+		},
+		//答案id放入数组
+		pushAnswerId(state, id) {
+			state.answerid.push(id)
+		}
+	},
+	actions: {
+		addItemNum(context, id) {
+			console.log(id);
 
-  },
-  actions:{
+			//更改当前题数
+			context.commit('addItemNum');
+			context.commit('pushAnswerId', id)
 
-  }
+		}
+	}
 })

@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "HelloWorld",
   props: {
@@ -53,21 +53,45 @@ export default {
       answerid: "" //
     };
   },
-  computed: mapState(["level", "itemNum", "itemDetail"]),
+  // computed: mapState(["level","itemNum","itemDetail"]),
+  computed: {
+    ...mapState({
+      level: state => state.level,
+      itemNum: state => state.itemNum,
+      /**
+       * 此处写法有两种，可是使用箭头函数，或者使用function函数，建议使用箭头函数
+       * 注意点：如果使用function函数的时候 一定要return  箭头函数是会自动返回值的
+       */
+      itemDetail: state => state.itemDetail
+      // itemDetail: function(state) {
+      //   return state.itemDetail;
+      // }
+    })
+  },
   methods: {
     //选择答案获取的id，用于更改序号背景色
     checkAnswer(id, answerid) {
       this.checkNum == id
-        ? ((this.checkNum = 0), (this.answerid = ''))
+        ? ((this.checkNum = 0), (this.answerid = ""))
         : ((this.checkNum = id), (this.answerid = answerid));
     },
     //下一题
     nextQuestion() {
-      if (this.answerid == '') {
+      if (this.answerid == "") {
         alert("您还没有选择答案哦");
+      } else {
+        //换到下一题
+        /**
+         * 需要调用actions的时候有两种方法
+         * 1、使用$store.dispatch调用
+         * 2、使用...mapActions辅助函数映射出来，然后直接调用
+         */
+        // this.$store.dispatch('addItemNum');
+        this.addItemNum(this.answerid);
       }
-      console.log(this.answerid);
-    }
+    },
+    //映射
+    ...mapActions(["addItemNum"])
   }
 };
 </script>
