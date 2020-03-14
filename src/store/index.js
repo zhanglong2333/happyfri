@@ -180,7 +180,7 @@ export default new vuex.Store({
 	},
 	actions: {
 		addItemNum(context, id) {
-			console.log(id);
+			console.log(id); 
 
 			//更改当前题数
 			context.commit('addItemNum');

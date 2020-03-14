@@ -91,7 +91,7 @@ export default {
       }
     },
     //映射
-    ...mapActions(["addItemNum"])
+    ...mapActions(["addItemNum"]) 
   }
 };
 </script>
