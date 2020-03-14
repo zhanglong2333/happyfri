@@ -27,12 +27,20 @@
       <router-link to="item">
         <img v-if="fatherComp=='home'" src="../assets/images/1-4.png" alt class="foot" />
         <img
-          v-else-if="fatherComp=='item'"
+          v-else-if="fatherComp=='item'&&itemDetail.length != itemNum"
           src="../assets/images/2-2.png"
           alt
           class="foot"
           @click="nextQuestion()"
         />
+        <img
+          class="foot"
+          v-else-if="itemDetail.length == itemNum"
+          src="../assets/images/3-1.png"
+          alt
+          @click="subAnswer"
+        />
+        
       </router-link>
     </footer>
   </div>
@@ -50,7 +58,7 @@ export default {
   data() {
     return {
       checkNum: 0, //选择序号
-      answerid: "" //
+      answerid: "",
     };
   },
   // computed: mapState(["level","itemNum","itemDetail"]),
@@ -77,6 +85,7 @@ export default {
     },
     //下一题
     nextQuestion() {
+      
       if (this.answerid == "") {
         alert("您还没有选择答案哦");
       } else {
@@ -91,7 +100,12 @@ export default {
       }
     },
     //映射
-    ...mapActions(["addItemNum"]) 
+    ...mapActions(["addItemNum"]),
+    //提交答案
+    subAnswer(){
+        console.log('提交答案');
+        
+    }
   }
 };
 </script>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/page/home'
 import item from '@/page/item'
+import sub from '@/page/sub'
 
 Vue.use(Router)
 
@@ -17,6 +18,8 @@ export default new Router({
   }, {
     path: '/',
     redirect: '/home'
-
+  },{
+    path:'/sub',
+    component:sub
   }]
 })
