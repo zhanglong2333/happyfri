@@ -6,18 +6,18 @@
     </header>
     <header class="clearfix" v-else-if="fatherComp=='item'">
       <div class="title-img"></div>
-      <span class="title">题目{{itemNum}}</span>
+      <!-- <span class="title">题目{{itemNum}}</span> -->
+      <span class="title">{{itemDetail[itemNum-1].topic_name}}</span>
     </header>
     <!-- 此处是banner区域变更所需要的代码 -->
     <div>
       <div class="banner" v-if="fatherComp=='home'"></div>
       <div v-else-if="fatherComp == 'item'" class="item-banner">
-        <div class="list-title">{{itemDetail[itemNum-1].topic_name}}</div>
         <ul>
           <li
             class="list"
             v-for="(item,index) in itemDetail[itemNum-1].topic_answer"
-            @click="checkAnswer(item.topic_answer_id,item.topic_answer_id)"
+            @click="checkAnswer(item.topic_answer_id,item.is_standard_answer)"
             :key="item.topic_answer_id"
           >
             <span :class="checkNum != item.topic_answer_id?'listNum':'checkdeListNum'">{{index+1}}</span>
@@ -40,9 +40,7 @@
         </router-link>
       </div>
       <div v-if="itemDetail.length == itemNum">
-        <router-link to="sub">
-          <img class="foot" src="../images/3-1.png" alt @click="subAnswer" />
-        </router-link>
+        <img class="foot" src="../images/3-1.png" alt @click="subAnswer" />
       </div>
     </footer>
   </div>
@@ -60,7 +58,7 @@ export default {
   data() {
     return {
       checkNum: 0, //选择序号
-      answerid: ""
+      answerid: -1//默认是负数
     };
   },
   // computed: mapState(["level","itemNum","itemDetail"]),
@@ -79,7 +77,7 @@ export default {
     })
   },
   created() {
-    // document.body.style.backgroundImage = "url(../images/1-1.jpg)";
+    // document.body.style.backgroundImage = "url('../images/1-1.jpg')";
 
     if (this.fatherComp == "home") {
       this.initDatas();
@@ -88,13 +86,17 @@ export default {
   methods: {
     //选择答案获取的id，用于更改序号背景色
     checkAnswer(id, answerid) {
+      console.log(id, answerid);
+
       this.checkNum == id
-        ? ((this.checkNum = 0), (this.answerid = ""))
+        ? ((this.checkNum = 0), (this.answerid = -1))
         : ((this.checkNum = id), (this.answerid = answerid));
     },
     //下一题
     nextQuestion() {
-      if (this.answerid == "") {
+      if ( this.answerid  < 0) {
+        console.log("到这了", this.checkNum, this.answerid);
+
         alert("您还没有选择答案哦");
       } else {
         //换到下一题
@@ -112,8 +114,12 @@ export default {
     ...mapActions(["addItemNum", "initDatas"]),
     //提交答案
     subAnswer() {
-      this.nextQuestion();
-      // this.$router.push("/sub");
+      if (this.answerid  < 0) {
+        alert("您还没有选择答案哦");
+      } else {
+        this.nextQuestion();
+        this.$router.push("/sub");
+      }
     }
   }
 };
@@ -178,11 +184,6 @@ a {
   border-radius: 51%;
   padding: 0px 5px;
   background-color: #f5e153;
-}
-.list-title {
-  color: #fff;
-  font-size: 0.266667rem /* 20/75 */;
-  text-align: left;
 }
 .foot {
   width: 1.333333rem /* 100/75 */;
