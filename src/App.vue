@@ -1,30 +1,27 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
-}
+  name: "App"
+};
 </script>
-
 <style>
+/* 引入外部css使用@import  style中使用的是stylus语法 
+    需要在哪个组件中引用就在那个组件中引用
+    注意点：一定要引入到#app上面!!!
+    如果全局的需要在main.js中引入
+*/
+@import "./style/common.css";
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-html,body{
-  height: 100%;
-  width: 100%;
-  background: url('./assets/images/1-1.jpg') no-repeat;
-  background-size: 100% 100%;
-  margin: 0;
-  padding: 0;
-  font-size: 75px;
 }
 </style>

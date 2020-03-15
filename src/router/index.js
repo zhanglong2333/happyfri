@@ -7,19 +7,19 @@ import sub from '@/page/sub'
 Vue.use(Router)
 
 export default new Router({
-  routes: [{
-    path: '/home',
-    name: 'home',
-    component: home,
-  }, {
-    path: '/item',
-    name: 'item',
-    component: item
-  }, {
-    path: '/',
-    redirect: '/home'
-  },{
-    path:'/sub',
-    component:sub
-  }]
+    routes: [{
+        path: '/home',
+        name: 'home',
+        component: home,
+    }, {
+        path: '/item',
+        name: 'item',
+        component: item
+    }, {
+        path: '/',
+        redirect: '/home'
+    }, {
+        path: '/sub',
+        component: sub
+    }]
 })

@@ -1,9 +1,12 @@
 <template>
   <div class="hello">
-    <header class="clearfix">
+    <header class="clearfix" v-if="fatherComp=='home'">
       <div class="title-img"></div>
-      <span class="title" v-if="fatherComp=='home'">{{level}}</span>
-      <span class="title" v-else-if="fatherComp=='item'">题目{{itemNum}}</span>
+      <span class="title">{{level}}</span>
+    </header>
+    <header class="clearfix" v-else-if="fatherComp=='item'">
+      <div class="title-img"></div>
+      <span class="title">题目{{itemNum}}</span>
     </header>
     <!-- 此处是banner区域变更所需要的代码 -->
     <div>
@@ -13,7 +16,7 @@
         <ul>
           <li
             class="list"
-            v-for="item,index in itemDetail[itemNum-1].topic_answer"
+            v-for="(item,index) in itemDetail[itemNum-1].topic_answer"
             @click="checkAnswer(item.topic_answer_id,item.topic_answer_id)"
             :key="item.topic_answer_id"
           >
@@ -24,24 +27,23 @@
       </div>
     </div>
     <footer>
-      <router-link to="item">
-        <img v-if="fatherComp=='home'" src="../assets/images/1-4.png" alt class="foot" />
-        <img
-          v-else-if="fatherComp=='item'&&itemDetail.length != itemNum"
-          src="../assets/images/2-2.png"
-          alt
-          class="foot"
-          @click="nextQuestion()"
-        />
-        <img
-          class="foot"
-          v-else-if="itemDetail.length == itemNum"
-          src="../assets/images/3-1.png"
-          alt
-          @click="subAnswer"
-        />
-        
-      </router-link>
+      <div v-if="fatherComp=='home'||fatherComp=='item'">
+        <router-link to="item">
+          <img v-if="fatherComp=='home'" src="../images/1-4.png" alt class="foot" />
+          <img
+            v-else-if="fatherComp=='item'&&itemDetail.length != itemNum"
+            src="../images/2-2.png"
+            alt
+            class="foot"
+            @click="nextQuestion()"
+          />
+        </router-link>
+      </div>
+      <div v-if="itemDetail.length == itemNum">
+        <router-link to="sub">
+          <img class="foot" src="../images/3-1.png" alt @click="subAnswer" />
+        </router-link>
+      </div>
     </footer>
   </div>
 </template>
@@ -58,7 +60,7 @@ export default {
   data() {
     return {
       checkNum: 0, //选择序号
-      answerid: "",
+      answerid: ""
     };
   },
   // computed: mapState(["level","itemNum","itemDetail"]),
@@ -76,6 +78,13 @@ export default {
       // }
     })
   },
+  created() {
+    // document.body.style.backgroundImage = "url(../images/1-1.jpg)";
+
+    if (this.fatherComp == "home") {
+      this.initDatas();
+    }
+  },
   methods: {
     //选择答案获取的id，用于更改序号背景色
     checkAnswer(id, answerid) {
@@ -85,7 +94,6 @@ export default {
     },
     //下一题
     nextQuestion() {
-      
       if (this.answerid == "") {
         alert("您还没有选择答案哦");
       } else {
@@ -97,14 +105,15 @@ export default {
          */
         // this.$store.dispatch('addItemNum');
         this.addItemNum(this.answerid);
+        this.answerid = "";
       }
     },
     //映射
-    ...mapActions(["addItemNum"]),
+    ...mapActions(["addItemNum", "initDatas"]),
     //提交答案
-    subAnswer(){
-        console.log('提交答案');
-        
+    subAnswer() {
+      this.nextQuestion();
+      // this.$router.push("/sub");
     }
   }
 };
@@ -127,7 +136,7 @@ a {
   float: right;
   height: 2rem /* 150/75 */;
   width: 1.333333rem /* 100/75 */;
-  background: url("../assets/images/WechatIMG2.png") no-repeat;
+  background: url("../images/WechatIMG2.png") no-repeat;
   background-size: 100% 100%;
 }
 
@@ -140,7 +149,7 @@ a {
   font-weight: 700;
 }
 .banner {
-  background: url("../assets/images/1-2.png") no-repeat;
+  background: url("../images/1-2.png") no-repeat;
   background-size: 100% /*300/75*/ 100%;
 }
 .item-banner,
@@ -150,7 +159,7 @@ a {
   margin: 0 auto;
 }
 .item-banner {
-  background: url("../assets/images/2-1.png") no-repeat;
+  background: url("../images/2-1.png") no-repeat;
   background-size: 100% /*300/75*/ 100%;
 }
 .list {
