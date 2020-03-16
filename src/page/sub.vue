@@ -3,8 +3,8 @@
   <div>
     <!-- <img src="../images/4-2.png" alt=""> -->
     <div class="scoreBanner">
-      <div class="score">100</div>
-      <div class="scoreTitle">还不错，加油啊！</div>
+      <div class="score">{{score}}</div>
+      <div class="scoreTitle">{{this.scoreTitle[titleNum]}}</div>
     </div>
     <img src="../images/4-3.png" alt class="share" />
     <div class="info">关注葡萄之家，获取答案</div>
@@ -14,27 +14,62 @@
 
 <script>
 import container from "@/components/container";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 export default {
   components: {
     container
   },
   data() {
     return {
-      score:'',//分数
+      score: 0, //分数
+      scoreTitle: [
+        "",
+        "你真棒！",
+        "哎呦，不错哟",
+        "需要努力了",
+        "菜的抠脚",
+        "垃圾，滚"
+      ],
+      titleNum: 0
     };
   },
   created() {
+    this.computedScore();
   },
-  computed:{
+  computed: {
     ...mapState({
-      itemDetail:state=>state.itemDetail,
-      answerid:state=>state.answerid,
+      itemDetail: state => state.itemDetail,
+      answerid: state => state.answerid
     })
   },
-  methods:{
-    computedScore(){
-
+  methods: {
+    //计算分数
+    computedScore() {
+      this.answerid.forEach(item => {
+        if (item == 1) {
+          this.score += 20;
+        }
+      });
+      switch (true) {
+        case this.score == 100:
+          this.titleNum = 1;
+          break;
+        case this.score >= 80:
+          this.titleNum = 2;
+          break;
+        case this.score >= 60:
+          this.titleNum = 3;
+          break;
+        case this.score >= 40:
+          this.titleNum = 4;
+          break;
+        case this.score <= 20:
+          this.titleNum = 5;
+          break;
+        default:
+          this.titleNum = 0;
+          break;
+      }
     }
   },
   mounted() {}
@@ -42,8 +77,7 @@ export default {
 </script>
 <style >
 body {
-  background: url("../images/4-1.jpg") no-repeat;
-  background-size: 100% 100%;
+  background-image: url("../images/4-1.jpg");
 }
 .scoreBanner {
   width: 4rem /* 300/75 */;

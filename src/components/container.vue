@@ -95,8 +95,6 @@ export default {
     //下一题
     nextQuestion() {
       if ( this.answerid  < 0) {
-        console.log("到这了", this.checkNum, this.answerid);
-
         alert("您还没有选择答案哦");
       } else {
         //换到下一题
@@ -107,7 +105,7 @@ export default {
          */
         // this.$store.dispatch('addItemNum');
         this.addItemNum(this.answerid);
-        this.answerid = "";
+        this.answerid = -1;
       }
     },
     //映射
@@ -117,8 +115,8 @@ export default {
       if (this.answerid  < 0) {
         alert("您还没有选择答案哦");
       } else {
-        this.nextQuestion();
         this.$router.push("/sub");
+        this.nextQuestion();
       }
     }
   }
